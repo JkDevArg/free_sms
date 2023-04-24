@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!doctype html>
 <html lang="en">
 
@@ -23,18 +24,23 @@
                 <form id="form_send" action="send_sms.php" method="POST">
                     <div class="mb-3">
                         <label for="phone_number" class="form-label">Phone</label>
-                        <input type="number" class="form-control" id="phone_number" placeholder="phone number" autocomplete="off" required>
+                        <input type="number" class="form-control" id="phone_number" name="phone_number" placeholder="phone number" autocomplete="off" required>
                     </div>
                     <div class="mb-3">
                         <label for="message" class="form-label">Message</label>
-                        <textarea class="form-control" id="message" rows="3" required></textarea>
+                        <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
                     </div>
                     <button type="submit" id="send_message" class="btn btn-primary">Send</button>
                 </form>
             </div>
         </div>
         <hr>
-        <div class="alert alert-info d-none" id="response_function" role="alert"></div>
+        <div class="alert alert-info <?= (isset($_SESSION["response"]) ? '' : 'd-none') ?>" id="response_function" role="alert">
+            <?php
+                echo ($_SESSION["response"] ? $_SESSION["response"] : 'Ups ocurrio un error');
+                session_destroy();
+            ?>
+        </div>
     </main>
     <!-- Bootstrap JavaScript Libraries -->
     <script src="index.js"></script>

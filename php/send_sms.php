@@ -1,9 +1,8 @@
 <?php
-
-if(isset($_POST['message']) && !empty($_POST['message']) && isset($_POST['phone_number']) && !empty($_POST['phone_number'])){
-
-    $message = $_POST['message'];
-    $phone_number = $_POST['phone_number'];
+if(isset($_REQUEST['message']) && !empty($_REQUEST['message']) && isset($_REQUEST['phone_number']) && !empty($_REQUEST['phone_number'])){
+    session_start();
+    $message = $_REQUEST['message'];
+    $phone_number = $_REQUEST['phone_number'];
     $key = "textbelt";
     $uri = "https://textbelt.com/text";
 
@@ -19,10 +18,13 @@ if(isset($_POST['message']) && !empty($_POST['message']) && isset($_POST['phone_
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
     $response = curl_exec($ch);
-    print_r($response);
+    $response = json_decode($response, true);
+    $_SESSION["response"] = (isset($response['success']) != 'false' ?  'Mensaje enviado correctamente' : $response['error']);
     curl_close($ch);
+    header('Location: index.php');
 }else{
-    return false;
+    echo '<script>alert("todo los campos son necesarios");</script>';
+    header('Location: /');
 }
 
 
