@@ -1,7 +1,5 @@
 import re
-import os
 import time
-import platform
 import base64
 import requests
 
